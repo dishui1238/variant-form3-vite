@@ -2,6 +2,7 @@
   "######": "本文件用于解决IDEA无法识别Vue项目@符号的问题",
   "compilerOptions": {
     "baseUrl": "./",
+    "jsx": "preserve",
     "paths": {
       "@/*": ["src/*"]
     }
