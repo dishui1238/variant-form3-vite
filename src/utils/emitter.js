@@ -50,8 +50,15 @@ export default {
       }
     },
 
+    /**
+     * @description: 触发 eventName 事件
+     * @param {*} componentName 组件名称
+     * @param {*} eventName 事件名称
+     * @param {*} params 参数
+     * @return {*}
+     */    
     dispatch: function dispatch(componentName, eventName, params) {
-      let parent = this.$parent || this.$root;
+      let parent = this.$parent || this.$root; // 父实例
       let name = parent.$options.componentName;
 
       while (parent && (!name || name !== componentName)) {
@@ -63,7 +70,7 @@ export default {
       }
       if (parent) {
         if (!!parent.emit$) {
-          parent.emit$.call(parent, eventName, params)
+          parent.emit$.call(parent, eventName, params) // 触发 eventName 事件
 
           if (componentName === 'VFormRender') {
             parent.$emit(eventName, params)  //执行原生$emit，以便可以用@进行声明式事件处理！！

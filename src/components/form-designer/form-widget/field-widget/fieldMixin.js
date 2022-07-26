@@ -309,7 +309,7 @@ export default {
     },
 
     syncUpdateFormModel(value) {
-      if (!!this.designState) {
+      if (!!this.designState) { // 非设计状态
         return
       }
 
@@ -368,7 +368,7 @@ export default {
       this.dispatch('VFormRender', 'appendButtonClick', [this]);
     },
 
-    handleOnChange(val, oldVal) {  //自定义onChange事件
+    handleOnChange(val, oldVal) {  // 触发自定义onChange事件
       if (!!this.field.options.onChange) {
         let changeFn = new Function('value', 'oldValue', this.field.options.onChange)
         changeFn.call(this, val, oldVal)

@@ -15,6 +15,21 @@ export const containers = [
   },
 
   {
+    type: 'sub-form',
+    category: 'container',
+    icon: 'sub-form',
+    rows: [],
+    widgetList: [],
+    options: {
+      name: '',
+      hidden: false,
+      customClass: '',  //自定义css类名
+      showRowNumber: true, // 显示行号
+      showBlankRow: true, // 默认展示新行
+    }
+  },
+
+  {
     type: 'table',
     category: 'container',
     icon: 'table',

@@ -150,6 +150,7 @@ export default {
   },
   methods: {
     getWidgetName(widget) {
+      console.log('getWidgetName', widget.type + "-widget")
       return widget.type + "-widget";
     },
 

@@ -20,7 +20,7 @@
             <!-- 
               tag  draggable component 作为包含slot的外部元素创建的HTML节点类型，默认 div
               sort 是否准许组内排序
-              onClone group属性设置了clone后多组间拖拽时会触发该事件
+              onClone group属性设置了clone后多组间拖拽时会触发该事件,当 clone 选项为true时, 在源组件上调用函数来克隆元素 Default: (original) => { return original;}
               onMove 拖拽中的事件，拖拽过程中（替换其他元素位置）执行返回true可以替换位置，返回false取消替换位置。
               onEnd 拖拽结束后执行的回调事件
             -->
@@ -357,6 +357,7 @@ export default {
     },
 
     handleFieldWidgetClone(origin) {
+      console.log('handleFieldWidgetClone', origin)
       return this.designer.copyNewFieldWidget(origin);
     },
     // 容器移动

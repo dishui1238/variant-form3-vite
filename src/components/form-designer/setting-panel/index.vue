@@ -1,7 +1,7 @@
 <template>
   <el-container class="panel-container">
     <el-tabs :active-name="activeTab" style="height: 100%; overflow: hidden">
-      <!-- 表单设置 -->
+      <!-- 组件设置 -->
       <el-tab-pane :label="i18nt('designer.hint.widgetSetting')" name="1">
         <el-scrollbar
           class="setting-scrollbar"
@@ -24,6 +24,7 @@
                 v-model="widgetActiveCollapseNames"
                 class="setting-collapse"
               >
+              <!-- 常见属性 -->
                 <el-collapse-item
                   name="1"
                   v-if="showCollapse(commonProps)"
@@ -32,6 +33,7 @@
                   <template v-for="(editorName, propName) in commonProps">
                     <component
                       v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
                       :selected-widget="selectedWidget"
@@ -39,7 +41,7 @@
                     ></component>
                   </template>
                 </el-collapse-item>
-
+                <!-- 高级属性 -->
                 <el-collapse-item
                   name="2"
                   v-if="showCollapse(advProps)"
@@ -48,6 +50,7 @@
                   <template v-for="(editorName, propName) in advProps">
                     <component
                       v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
                       :selected-widget="selectedWidget"
@@ -55,7 +58,7 @@
                     ></component>
                   </template>
                 </el-collapse-item>
-
+                <!-- 事件属性 -->
                 <el-collapse-item
                   name="3"
                   v-if="showEventCollapse() && showCollapse(eventProps)"
@@ -64,6 +67,7 @@
                   <template v-for="(editorName, propName) in eventProps">
                     <component
                       v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
                       :selected-widget="selectedWidget"
@@ -100,6 +104,7 @@
                   <template v-for="(editorName, propName) in commonProps">
                     <component
                       v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
                       :selected-widget="selectedWidget"
@@ -116,6 +121,7 @@
                   <template v-for="(editorName, propName) in advProps">
                     <component
                       v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
                       :selected-widget="selectedWidget"
@@ -132,6 +138,7 @@
                   <template v-for="(editorName, propName) in eventProps">
                     <component
                       v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
                       :is="getPropEditor(propName, editorName)"
                       :designer="designer"
                       :selected-widget="selectedWidget"
@@ -145,7 +152,7 @@
         </el-scrollbar>
       </el-tab-pane>
 
-      <!-- 组件设置 -->
+      <!-- 表单设置 -->
       <el-tab-pane
         v-if="!!designer"
         :label="i18nt('designer.hint.formSetting')"
@@ -346,7 +353,7 @@ export default {
         this.selectedWidget.type + "-",
         ""
       ); //去掉组件名称前缀-，如果有的话！！
-      let ownPropEditorName = `${this.selectedWidget.type}-${originalPropName}-editor`;
+      let ownPropEditorName = `${this.selectedWidget.type}-${originalPropName}-editor`; // input-name-editor
       //console.log(ownPropEditorName, this.$options.components[ownPropEditorName])
       if (!!this.$options.components[ownPropEditorName]) {
         //局部注册的属性编辑器组件
@@ -377,8 +384,6 @@ export default {
     },
 
     editEventHandler(eventName, eventParams) {
-      //debugger
-
       this.curEventName = eventName;
       this.eventHeader = `${
         this.optionModel.name
@@ -399,6 +404,7 @@ export default {
       let syntaxErrorFlag = false;
       if (!!codeHints && codeHints.length > 0) {
         codeHints.forEach((chItem) => {
+          // 判断是否有代码错误
           if (chItem.type === "error") {
             syntaxErrorFlag = true;
           }
@@ -406,12 +412,13 @@ export default {
 
         if (syntaxErrorFlag) {
           this.$message.error(
+            // JS代码存在语法错误，请仔细检查！
             this.i18nt("designer.setting.syntaxCheckWarning")
           );
           return;
         }
       }
-
+      // 将数据同步进 options 配置内
       this.selectedWidget.options[this.curEventName] = this.eventHandlerCode;
       this.showWidgetEventDialogFlag = false;
     },

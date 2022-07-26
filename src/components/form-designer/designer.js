@@ -903,7 +903,6 @@ export function createDesigner(vueInstance) {
       newWidget.options.name = newWidget.id;
       newWidget.options.label =
         newWidget.options.label || newWidget.type.toLowerCase();
-
       delete newWidget.displayName;
       return newWidget;
     },
