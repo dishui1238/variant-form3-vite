@@ -25,6 +25,10 @@ export const containers = [
       customClass: '',  //自定义css类名
       showRowNumber: true, // 显示行号
       showBlankRow: true, // 默认展示新行
+      onSubFormRowAdd: '',
+      onSubFormRowInsert: '',
+      onSubFormRowDelete: '',
+      onSubFormRowChange: ''
     }
   },
 

@@ -317,7 +317,6 @@ export default {
         //console.log(this.scrollerHeight)
       });
     });
-    console.log('this.formConfig', this.formConfig)
   },
   methods: {
     showEventCollapse() {
