@@ -163,7 +163,7 @@ loadWidgets() {
 
 2. widget-panel 拖动组件会触发 clone 事件，该事件调用 designer 上的 `copyNewContainerWidget`or`copyNewFieldWidget` 事件，向 designer.widgetList 追加新元素
 
-### 1. 联动
+### 2. 联动
 
 1. onChange 配置
 
@@ -208,6 +208,9 @@ drinkRadio.onChange(value, oldValue, subFormData, rowId) {
   - 触发 `field-value-changed`, 即触发 options.onChange 中的自定义事件
   - 父表单的 `fieldChange` 事件、`fieldValidation`单个字段变更的校验事件
 
-### 2. 数据远程加载
+### 3. 数据远程加载
 
 在表单 onFormMounted 事件中通过 axios 调用后端接口，动态加载数据
+
+### 4. 函数配置
+

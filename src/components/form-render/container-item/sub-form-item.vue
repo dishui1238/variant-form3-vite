@@ -177,6 +177,7 @@ export default {
   },
   mounted() {
     this.handleSubFormFirstRowAdd(); //默认添加首行后，主动触发相关事件！！
+    console.log('refList', this.refList)
   },
   beforeUnmount() {
     this.unregisterFromRefList();

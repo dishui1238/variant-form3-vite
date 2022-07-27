@@ -258,9 +258,10 @@ export default {
           }
         } else if (wItem.type === "sub-form") {
           let subFormName = wItem.options.name;
+          // 如果 没数据
           if (!this.formData.hasOwnProperty(subFormName)) {
             let subFormDataRow = {};
-            if (wItem.options.showBlankRow) {
+            if (wItem.options.showBlankRow) { // 展示新行
               wItem.widgetList.forEach((subFormItem) => {
                 if (!!subFormItem.formItemFlag) {
                   subFormDataRow[subFormItem.options.name] =
