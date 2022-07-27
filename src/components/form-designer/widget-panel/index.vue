@@ -352,7 +352,6 @@ export default {
     },
 
     handleContainerWidgetClone(origin) {
-      console.log("clone origin", origin);
       return this.designer.copyNewContainerWidget(origin);
     },
 

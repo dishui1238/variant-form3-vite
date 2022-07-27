@@ -10,40 +10,37 @@
       :key="widget.id"
       class="sub-form-container"
       :class="[selected ? 'selected' : '', customClass]"
-      v-show="!widget.options.hidden"
       @click.stop="selectWidget(widget)"
     >
       <el-form label-position="top" :validate-on-rule-change="false">
-        <!-- onAdd Element is dropped into the list from another list -->
         <div class="sub-form-table">
           <draggable
             :list="widget.widgetList"
             item-key="id"
-            v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 200 }"
-            handle=".drag-handler"
+            v-bind="{
+              group: 'dragGroup',
+              ghostClass: 'vertical-ghost',
+              animation: 200,
+            }"
             tag="transition-group"
             :component-data="{ name: 'fade' }"
-            @update="onContainerDragUpdate"
+            handle=".drag-handler"
+            @add="(evt) => onFormItemDragAdd(evt, widget.widgetList)"
+            @update="onFormItemDragUpdate"
             :move="checkContainerMove"
-            @add="(evt) => onContainerDragAdd(evt, widget.widgetList)"
           >
             <template #item="{ element: subWidget, index: swIdx }">
-              <div
-                class="sub-form-table-column hide-label"
-                :style="{ width: subWidget.options.columnWidth }"
-              >
-                <template v-if="'container' !== subWidget.category">
-                  <component
-                    :is="subWidget.type + '-widget'"
-                    :field="subWidget"
-                    :designer="designer"
-                    :key="subWidget.id"
-                    :parent-list="widget.widgetList"
-                    :index-of-parent-list="swIdx"
-                    :parent-widget="widget"
-                    :design-state="true"
-                  ></component>
-                </template>
+              <div class="form-widget-list">
+                <component
+                  :is="subWidget.type + '-widget'"
+                  :field="subWidget"
+                  :designer="designer"
+                  :key="subWidget.id"
+                  :parent-list="widget.widgetList"
+                  :index-of-parent-list="swIdx"
+                  :parent-widget="widget"
+                  :design-state="true"
+                ></component>
               </div>
             </template>
           </draggable>
@@ -55,10 +52,10 @@
 
 <script>
 import i18n from "@/utils/i18n";
-import GridColWidget from "@/components/form-designer/form-widget/container-widget/grid-col-widget";
 import containerMixin from "@/components/form-designer/form-widget/container-widget/containerMixin";
 import ContainerWrapper from "@/components/form-designer/form-widget/container-widget/container-wrapper";
 import refMixinDesign from "@/components/form-designer/refMixinDesign";
+import FieldComponents from "@/components/form-designer/form-widget/field-widget/index";
 
 export default {
   name: "sub-form-widget",
@@ -67,7 +64,7 @@ export default {
   inject: ["refList"],
   components: {
     ContainerWrapper,
-    GridColWidget,
+    ...FieldComponents,
   },
   props: {
     widget: Object,
@@ -89,19 +86,27 @@ export default {
     //
   },
   created() {
+    console.log("this.widget", this.widget);
     this.initRefList();
   },
   mounted() {
-    console.log("parentWidget", this.parentWidget);
     //
   },
   methods: {
-    getWidgetName(widget) {
-      return widget.type + "-widget";
-    },
-    // 容器移动
     checkContainerMove(evt) {
       return this.designer.checkWidgetMove(evt);
+    },
+
+    onFormItemDragAdd(evt, subList) {
+      const newIndex = evt.newIndex;
+      if (!!subList[newIndex]) {
+        this.designer.setSelected(subList[newIndex]);
+      }
+      this.designer.emitHistoryChange();
+    },
+
+    onFormItemDragUpdate() {
+      this.designer.emitHistoryChange();
     },
   },
 };
@@ -128,29 +133,14 @@ export default {
   }
   .sub-form-table {
     min-height: 68px;
+    display: flex;
+  }
+  .form-widget-list {
+    // border: 1px dashed #336699;
+    min-height: 36px;
+    min-width: 100px;
   }
 }
-div.sub-form-table-column {
-  display: inline-block;
-  // width: 200px;
-
-  :deep(.el-form-item) {
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-bottom: 0;
-  }
-
-  :deep(.el-form-item__content) {
-    margin-left: 0 !important;
-  }
-}
-
-div.sub-form-table-column.hide-label {
-  :deep(.el-form-item__label) {
-    display: none;
-  }
-}
-
 .sub-form-container.selected {
   outline: 2px solid $--color-primary !important;
 }

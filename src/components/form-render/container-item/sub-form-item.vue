@@ -425,8 +425,8 @@ export default {
   }
 
   :deep(.el-row.sub-form-row) {
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 0;
+    padding-bottom: 0;
 
     .row-number-span {
       margin-left: 16px;
@@ -437,6 +437,9 @@ export default {
 div.action-header-column {
   display: inline-block;
   width: 120px;
+  border: 1px solid #e1e2e3;
+  background: #f1f2f3;
+  padding: 8px;
 
   .action-label {
     margin-right: 12px;
@@ -453,6 +456,9 @@ div.field-header-column {
   //overflow: hidden;
   //white-space: nowrap;  //文字超出长度不自动换行
   //text-overflow: ellipsis;  //文字超出长度显示省略号
+  border: 1px solid #e1e2e3;
+  background: #f1f2f3;
+  padding: 8px;
 
   span.custom-label i {
     margin: 0 3px;
@@ -480,6 +486,8 @@ div.label-right-align {
 div.sub-form-action-column {
   display: inline-block;
   width: 120px;
+  border: 1px solid #e1e2e3;
+  padding: 8px;
 
   :deep(.el-form-item) {
     margin-bottom: 0;
@@ -502,6 +510,8 @@ div.sub-form-action-column.hide-label {
 div.sub-form-table-column {
   display: inline-block;
   //width: 200px;
+  border: 1px solid #e1e2e3;
+  padding: 8px;
 
   :deep(.el-form-item) {
     margin-left: 4px;

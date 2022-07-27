@@ -18,7 +18,6 @@ export const containers = [
     type: 'sub-form',
     category: 'container',
     icon: 'sub-form',
-    rows: [],
     widgetList: [],
     options: {
       name: '',

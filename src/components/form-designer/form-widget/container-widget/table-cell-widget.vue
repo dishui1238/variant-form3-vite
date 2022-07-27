@@ -50,7 +50,6 @@
         </div>
       </template>
     </draggable>
-
     <div
       class="table-cell-action"
       v-if="designer.selectedId === widget.id && widget.type === 'table-cell'"

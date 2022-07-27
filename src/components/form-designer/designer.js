@@ -908,8 +908,6 @@ export function createDesigner(vueInstance) {
     },
 
     copyNewContainerWidget(origin) {
-      console.log("copyNewContainerWidget origin", origin);
-
       let newCon = deepClone(origin);
       newCon.id = newCon.type.replace(/-/g, "") + generateId();
       newCon.options.name = newCon.id;

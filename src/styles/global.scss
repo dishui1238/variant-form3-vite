@@ -22,6 +22,17 @@ $--color-primary: #409EFF;
     padding: 0;
     overflow: hidden;
   }
+  .vertical-ghost{
+    content: '';
+    font-size: 0;
+    height: 30px;
+    box-sizing: border-box;
+    background: $--color-primary;
+    border: 2px solid $--color-primary;
+    outline-width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
 }
 
 .el-form-item {
