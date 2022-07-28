@@ -212,5 +212,10 @@ drinkRadio.onChange(value, oldValue, subFormData, rowId) {
 
 在表单 onFormMounted 事件中通过 axios 调用后端接口，动态加载数据
 
-### 4. 函数配置
+### 4. subForm 配置
+
+获取某一行的实例：`this.getWidgetRef(applicantId@rowid104201)`
+
+
+
 

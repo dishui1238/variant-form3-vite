@@ -263,6 +263,7 @@ export default {
       } else {
         this.fieldSchemaData.splice(rowIndex, 0, fieldSchemas);
       }
+      console.log('fieldSchemaData', this.fieldSchemaData)
     },
 
     deleteFromFieldSchemaData(rowIndex) {
