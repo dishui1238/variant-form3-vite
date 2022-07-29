@@ -124,14 +124,14 @@ export default {
     },
 
     handleOnCreated() {
-      if (!!this.field.options.onCreated) {
+      if (!!this.field.options.onCreated && !this.designState) {
         let customFunc = new Function(this.field.options.onCreated)
         customFunc.call(this)
       }
     },
 
     handleOnMounted() {
-      if (!!this.field.options.onMounted) {
+      if (!!this.field.options.onMounted && !this.designState) {
         let mountFunc = new Function(this.field.options.onMounted)
         mountFunc.call(this)
       }
@@ -309,7 +309,7 @@ export default {
     },
 
     syncUpdateFormModel(value) {
-      if (!!this.designState) { // 非设计状态
+      if (!!this.designState) { // 设计状态
         return
       }
 
@@ -325,6 +325,9 @@ export default {
     },
 
     handleChangeEvent(value) {
+      if (!!this.designState) { // 设计状态
+        return
+      }
       this.syncUpdateFormModel(value)
       this.emitFieldDataChange(value, this.oldFieldValue)
 
@@ -336,6 +339,9 @@ export default {
     },
 
     handleFocusCustomEvent(event) {
+      if (!!this.designState) { // 设计状态
+        return
+      }
       this.oldFieldValue = deepClone(this.fieldModel)  //保存修改change之前的值
 
       if (!!this.field.options.onFocus) {
@@ -345,6 +351,9 @@ export default {
     },
 
     handleBlurCustomEvent(event) {
+      if (!!this.designState) { // 设计状态
+        return
+      }
       if (!!this.field.options.onBlur) {
         let customFn = new Function('event', this.field.options.onBlur)
         customFn.call(this, event)
@@ -352,6 +361,9 @@ export default {
     },
 
     handleInputCustomEvent(value) {
+      if (!!this.designState) { //设计状态不触发事件
+        return
+      }
       this.syncUpdateFormModel(value)
 
       /* 主动触发表单的单个字段校验，用于清除字段可能存在的校验错误提示 */
@@ -369,6 +381,9 @@ export default {
     },
 
     handleOnChange(val, oldVal) {  // 触发自定义onChange事件
+      if (!!this.designState) { //设计状态不触发事件
+        return
+      }
       if (!!this.field.options.onChange) {
         let changeFn = new Function('value', 'oldValue', this.field.options.onChange)
         changeFn.call(this, val, oldVal)
@@ -376,6 +391,9 @@ export default {
     },
 
     handleOnChangeForSubForm(val, oldVal, subFormData, rowId) {  //子表单自定义onChange事件
+      if (!!this.designState) { //设计状态不触发事件
+        return
+      }
       if (!!this.field.options.onChange) {
         let changeFn = new Function('value', 'oldValue', 'subFormData', 'rowId', this.field.options.onChange)
         changeFn.call(this, val, oldVal, subFormData, rowId)
@@ -396,6 +414,9 @@ export default {
     },
 
     remoteQuery(keyword) {
+      if (!!this.designState) { //设计状态不触发事件
+        return
+      }
       if (!!this.field.options.onRemoteQuery) {
         let remoteFn = new Function('keyword', this.field.options.onRemoteQuery)
         remoteFn.call(this, keyword)

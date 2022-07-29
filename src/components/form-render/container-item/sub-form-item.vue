@@ -78,9 +78,10 @@
               </template>
             </span>
             <template v-else>
-              <span :title="subWidget.options.labelTooltip">{{
-                subWidget.options.label
-              }}</span></template
+              <span
+                :title="subWidget.options.labelTooltip"
+                >{{ subWidget.options.label }}</span
+              ></template
             >
           </div>
         </template>
@@ -175,13 +176,18 @@ export default {
     this.initFieldSchemaData();
     this.initEventHandler();
   },
+  computed: {
+    // showWidgetList(){
+    //   return widget.widgetList.filter(i => !i.options.hidden)
+    // }
+  },
   mounted() {
     this.handleSubFormFirstRowAdd(); //默认添加首行后，主动触发相关事件！！
-    console.log('refList', this.refList)
   },
   beforeUnmount() {
     this.unregisterFromRefList();
   },
+  watch() {},
   methods: {
     getLabelAlign(widget, subWidget) {
       return subWidget.options.labelAlign || widget.options.labelAlign;
@@ -263,7 +269,6 @@ export default {
       } else {
         this.fieldSchemaData.splice(rowIndex, 0, fieldSchemas);
       }
-      console.log('fieldSchemaData', this.fieldSchemaData)
     },
 
     deleteFromFieldSchemaData(rowIndex) {

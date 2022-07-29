@@ -86,7 +86,6 @@ export default {
     //
   },
   created() {
-    console.log("this.widget", this.widget);
     this.initRefList();
   },
   mounted() {
