@@ -41,6 +41,23 @@
                     ></component>
                   </template>
                 </el-collapse-item>
+                <!-- 订阅依赖项 -->
+                <el-collapse-item
+                  name="4"
+                  v-if="showCollapse(subscribeProps)"
+                  title="依赖订阅"
+                >
+                  <template v-for="(editorName, propName) in subscribeProps">
+                    <component
+                      v-if="hasPropEditor(propName, editorName)"
+                      :key="propName"
+                      :is="getPropEditor(propName, editorName)"
+                      :designer="designer"
+                      :selected-widget="selectedWidget"
+                      :option-model="optionModel"
+                    ></component>
+                  </template>
+                </el-collapse-item>
                 <!-- 高级属性 -->
                 <el-collapse-item
                   name="2"
@@ -218,7 +235,7 @@ import eventBus from "@/utils/event-bus";
 import emitter from "@/utils/emitter";
 import { propertyRegistered } from "@/components/form-designer/setting-panel/propertyRegister";
 
-const { COMMON_PROPERTIES, ADVANCED_PROPERTIES, EVENT_PROPERTIES } =
+const { COMMON_PROPERTIES, ADVANCED_PROPERTIES, EVENT_PROPERTIES, SUBSCRIBE_PROPERTIES } =
   WidgetProperties;
 
 export default {
@@ -247,6 +264,7 @@ export default {
       formActiveCollapseNames: ["1", "2"],
 
       commonProps: COMMON_PROPERTIES,
+      subscribeProps: SUBSCRIBE_PROPERTIES,
       advProps: ADVANCED_PROPERTIES,
       eventProps: EVENT_PROPERTIES,
 

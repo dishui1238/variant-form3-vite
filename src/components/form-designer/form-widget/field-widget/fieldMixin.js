@@ -28,11 +28,33 @@ export default {
         return this.globalModel.formModel
       }
     },
+    // 监听的依赖
+    dependencyKeys(){
+      let collect = {};
+      (this.field.options.dependency || []).forEach(key => {
+        collect[key] = this.formModel[key]
+      })
+     return collect
+    }
+  },
 
+  watch: {
+    // 监听依赖的变化
+    dependencyKeys: {
+      handler: function(newValues, oldValues) {
+        if (!!this.designState) { // 设计状态
+          return
+        }
+        if (!!this.field.options.watchHandler) {
+          let customFn = new Function('newValues', 'oldValues', this.field.options.watchHandler)
+          customFn.call(this, newValues, oldValues)
+        }
+      },
+      deep: true
+    }
   },
 
   methods: {
-
     //--------------------- 组件内部方法 begin ------------------//
     getPropName() {
       if (this.subFormItemFlag && !this.designState) {
@@ -100,7 +122,6 @@ export default {
 
     initEventHandler() {
       this.on$('setFormData', (newFormData) => {
-        console.log('formModel of globalModel----------', this.globalModel.formModel)
         if (!this.subFormItemFlag) {
           this.setValue(newFormData[this.field.options.name])
         }

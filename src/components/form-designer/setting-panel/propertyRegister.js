@@ -70,6 +70,11 @@ const COMMON_PROPERTIES = {
 
 }
 
+const SUBSCRIBE_PROPERTIES = {
+  'dependency'        :            'dependency-editor',
+  'watchHandler'      :            'watchHandler-editor',
+}
+
 const ADVANCED_PROPERTIES = {
   'min'               :            'min-editor',
   'max'               :            'max-editor',
@@ -207,6 +212,7 @@ export function registerEPEditor(app, uniquePropName, propEditorName, editorComp
 export default {
   COMMON_PROPERTIES,
   ADVANCED_PROPERTIES,
+  SUBSCRIBE_PROPERTIES,
   EVENT_PROPERTIES
 }
 

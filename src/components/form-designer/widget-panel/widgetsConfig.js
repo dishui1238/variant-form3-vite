@@ -347,15 +347,14 @@ export const basicFields = [
       automaticDropdown: false,  //自动下拉
       multiple: false,
       multipleLimit: 0,
-      optionItems: [
-        {label: 'select 1', value: 1},
-        {label: 'select 2', value: 2},
-        {label: 'select 3', value: 3},
-      ],
+      optionItems: [],
       required: false,
       requiredHint: '',
       validation: '',
       validationHint: '',
+      // -------- 依赖项 --------
+      dependency: [],
+      watchHandler: '',
       //-------------------
       customClass: '',  //自定义css类名
       labelIconClass: null,
