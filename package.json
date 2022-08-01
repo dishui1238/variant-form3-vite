@@ -17,6 +17,7 @@
     "element-plus": "^2.0.4",
     "file-saver": "^2.0.5",
     "mitt": "^3.0.0",
+    "query-string": "^7.1.1",
     "sortablejs": "1.14.0",
     "vue": "^3.2.32",
     "vue3-quill": "^0.2.6"
