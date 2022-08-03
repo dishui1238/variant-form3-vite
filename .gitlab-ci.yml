@@ -1,0 +1,104 @@
+image: docker-reg.devops.xiaohongshu.com/fe/fe-ci:$FE_CI_IMAGE_LATEST
+
+variables:
+  BROWSER_OUTPUT_FOLDER: "./public"
+  REMOTES_FOLDER: "/data/formula-static/$CI_PROJECT_NAME"
+
+before_script:
+  - node -v
+  - npm i
+
+.cache: &common_cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+  policy: pull-push
+
+.artifacts: &common_artifacts
+  expire_in: 10 mins
+  paths:
+    - $BROWSER_OUTPUT_FOLDER
+
+.job_template: &build_definition
+  stage: build
+  cache:
+    <<: *common_cache
+    policy: pull
+  artifacts:
+    <<: *common_artifacts
+  allow_failure: false
+
+.job_template: &dockwalloper_definition
+  stage: dockwalloper
+  image: docker-reg.devops.xiaohongshu.com/fe/dockwalloper:latest
+  before_script:
+    - node -v
+    - dockwalloper -v
+  script:
+    - dockwalloper carry -p ./ -d $CI_PROJECT_URL -r $CI_COMMIT_REF_NAME -u $FE_CI_WIKI_GROUP -w $FE_CI_WIKI_PASSWORD
+
+stages:
+  - build
+  - deploy
+  - dockwalloper
+
+build:feature:
+  <<: *build_definition
+  script:
+    - npm run build
+  only:
+    - branches
+  except:
+    - develop
+    - master
+  when: manual
+
+build:test:
+  <<: *build_definition
+  script:
+    - npm run build
+  only:
+    - develop
+
+build:production:
+  <<: *build_definition
+  script:
+    - npm run build
+  only:
+    - /^v\d+\.\d+\.\d+$/
+  except:
+    - branches
+
+deploy:static-and-image:
+  stage: deploy
+  cache:
+    <<: *common_cache
+    policy: pull
+  before_script:
+    - node -v
+    - docker -v
+    - npm i
+    - npm run build
+  script:
+    - docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD $REGISTRY_NAME # deploy image
+    - docker build -t $REGISTRY_NAME/$CI_PROJECT_PATH:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8} .
+    - docker push $REGISTRY_NAME/$CI_PROJECT_PATH:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}
+    - docker rmi $REGISTRY_NAME/$CI_PROJECT_PATH:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA:0:8}
+  only:
+    - branches
+    - /^v\d+\.\d+\.\d+$/
+  except:
+    - master
+
+dockwalloper:tag:
+  <<: *dockwalloper_definition
+  only:
+    - /^v\d+\.\d+\.\d+$/
+    - /^v\d+\.\d+\.\d+-\d+$/
+
+dockwalloper:manual:
+  <<: *dockwalloper_definition
+  when:
+      manual
+  only:
+    - branches

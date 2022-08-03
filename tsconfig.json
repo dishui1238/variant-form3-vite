@@ -30,10 +30,7 @@
 
     // 不自动引入 @types 下的所有 types 文件
     // https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#types-typeroots-and-types
-    "types": [
-      "node",
-      "./src/types/**/*"
-    ],
+    "types": [],
 
     /*** 类型检查相关 ***/
     // 允许没有初始化的class属性
@@ -47,7 +44,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@/*": ["./src/*"],
     },
   }
 }
