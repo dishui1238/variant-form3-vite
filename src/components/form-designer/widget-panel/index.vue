@@ -1,6 +1,7 @@
 <template>
   <el-scrollbar class="side-scroll-bar" :style="{ height: scrollerHeight }">
     <div class="panel-container">
+      <el-button @click="test">测试</el-button>
       <el-tabs v-model="firstTab" class="no-bottom-margin indent-left-margin">
         <!-- 组件库 -->
         <el-tab-pane name="componentLib">
@@ -247,7 +248,7 @@ export default {
 
       scrollerHeight: 0,
 
-      activeNames: ["1", "2", "3", "4"],
+      activeNames: ["1", "2", "3", "4", "5"],
 
       containers: [],
       basicFields: [],
@@ -356,7 +357,6 @@ export default {
     },
 
     handleFieldWidgetClone(origin) {
-      console.log('handleFieldWidgetClone', origin)
       return this.designer.copyNewFieldWidget(origin);
     },
     // 容器移动
@@ -418,6 +418,10 @@ export default {
           console.error(error);
         });
     },
+
+    test(){
+      console.log('widgetList', this.designer.widgetList)
+    }
   },
 };
 </script>
